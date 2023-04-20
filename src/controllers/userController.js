@@ -3,7 +3,7 @@ const userModel = require('../models/user');
 const jwt = require('jsonwebtoken');
 
 const signup = async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password, name } = req.body;
     try {
         const existingUser = await userModel.findOne({email: email});
         if(existingUser) {
@@ -13,7 +13,8 @@ const signup = async (req, res) => {
 
         const result = await userModel.create({
             email: email,
-            password: hasedPassword
+            password: hasedPassword,
+            name: name
         });
 
         const token = jwt.sign({email: result.email, id: result._id}, process.env.SECRET);
