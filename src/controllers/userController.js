@@ -61,4 +61,16 @@ const signing = async (req, res) => {
     }
 }
 
-module.exports = { signup, reset, signing };
+const user = async (req, res) => {
+    try {
+        const user = await userModel.findById(req.userId);
+        if(!user) {
+            return res.status(400).json({message: 'Wrong user'})
+        }
+        return res.status(200).json(user);
+    } catch(error) {
+        return res.status(500).json({message: 'Something went wrong'});
+    }
+}
+
+module.exports = { signup, reset, signing, user };
