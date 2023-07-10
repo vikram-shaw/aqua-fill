@@ -28,7 +28,9 @@ const EntrySchema = mongoose.Schema({
         required: true
     },
     isPaid: {
-        type: Boolean,
+        type: String,
+        enum: ['Paid', 'Unpaid'],
+        default: 'Paid',
         required: true
     },
     userId: {
