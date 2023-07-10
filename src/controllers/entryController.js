@@ -2,6 +2,7 @@ const entryModel = require("../models/entry");
 
 const create = async (req, res) => {
     try {
+        console.log(req, res);
         const entryReq = req.body;
         entryReq.date = new Date(entryReq.date);
         const entry = await entryModel.create({...entryReq, userId: req.userId});
