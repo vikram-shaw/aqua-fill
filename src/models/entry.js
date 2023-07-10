@@ -19,8 +19,8 @@ const EntrySchema = mongoose.Schema({
     },
     bottleType: {
         type: String,
-        enum: ['local', 'motherdairy'],
-        default: 'local',
+        enum: ['Normal', 'MotherDairy'],
+        default: 'Normal',
         required: true
     },
     perBottleCost: {
