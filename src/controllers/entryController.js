@@ -20,7 +20,7 @@ const get = async (req, res) => {
                 $lte: new Date(endDate??'2055-01-01'),
             },
             customerId: { $in: customerIds },
-            isPaid: { $in: paidStatus === [] ? [true, false] : paidStatus }
+            isPaid: { $in: paidStatus ? paidStatus : ["Paid", "Unpaid"] }
         });
         res.status(200).json(entities);
     } catch(error) {
