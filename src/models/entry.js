@@ -33,12 +33,12 @@ const EntrySchema = mongoose.Schema({
         default: 'Paid',
         required: true
     },
-    userId: {
+    user: {
         type: mongoose.Types.ObjectId,
         ref: "User",
         required: true
     },
-    customerId: {
+    customer: {
         type: mongoose.Types.ObjectId,
         ref: 'Customer',
         required: true

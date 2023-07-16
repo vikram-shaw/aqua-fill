@@ -11,7 +11,7 @@ const create = async (req, res) => {
             name: name,
             address: address,
             phone: phone,
-            userId: req.userId
+            user: req.user
         });
         return res.status(200).json(newCustomer);
     } catch(error) {
@@ -21,7 +21,7 @@ const create = async (req, res) => {
 
 const getAll = async (req, res) => {
     try {
-        const customers = await customerModel.find({userId: req.userId});
+        const customers = await customerModel.find({user: req.user});
         return res.status(200).json(customers);
     } catch(error) {
         return res.status(500).json({message: 'Something went wrong'});

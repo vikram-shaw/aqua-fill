@@ -6,7 +6,7 @@ const auth = (req, res, next) => {
         if(token) {
             token = token.split(' ')[1];
             const user = jwt.verify(token, process.env.SECRET);
-            req.userId = user.id;
+            req.user = user.id;
         } else {
             return res.status(401).json({message: 'Unauthorized user'});
         }

@@ -13,7 +13,7 @@ const CustomerSchema = mongoose.Schema({
         type: Number,
         required: true
     },
-    userId: {
+    user: {
         type: mongoose.Types.ObjectId,
         ref: 'User',
         required: true,

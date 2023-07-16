@@ -4,7 +4,7 @@ const create = async (req, res) => {
     try {
         const entryReq = req.body;
         entryReq.date = new Date(entryReq.date);
-        const entry = await entryModel.create({...entryReq, userId: req.userId});
+        const entry = await entryModel.create({...entryReq, user: req.user});
         return res.status(200).json(entry);
     } catch(error) {
         return res.status(500).json({message: 'Something went wrong'});
@@ -19,7 +19,7 @@ const get = async (req, res) => {
                 $gte: new Date(startDate??'2000-01-01'),
                 $lte: new Date(endDate??'2055-01-01'),
             },
-            customerId: { $in: customerIds },
+            customer: { $in: customerIds },
             isPaid: { $in: paidStatus ? paidStatus : ["Paid", "Unpaid"] }
         });
         res.status(200).json(entities);
