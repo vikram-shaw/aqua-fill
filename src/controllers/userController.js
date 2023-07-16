@@ -63,7 +63,7 @@ const signing = async (req, res) => {
 
 const user = async (req, res) => {
     try {
-        const user = await userModel.findById(req.userId);
+        const user = await userModel.findById(req.user);
         if(!user) {
             return res.status(400).json({message: 'Wrong user'})
         }
