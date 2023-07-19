@@ -1,15 +1,14 @@
 const entryModel = require("../models/entry");
-const mongoose = require('mongoose');
-const ObjectId = mongoose.Types.ObjectId;
 
 const create = async (req, res) => {
     try {
         const entryReq = req.body;
         entryReq.date = new Date(entryReq.date);
-        const entry = await entryModel.create({...entryReq, user: req.user}).populate('customer');
+        const entry = await entryModel.create({...entryReq, user: req.user});
+
         return res.status(200).json(entry);
     } catch(error) {
-        return res.status(500).json({message: 'Something went wrong'});
+        return res.status(500).json({message: error});
     }
 }
 
