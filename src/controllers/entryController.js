@@ -6,7 +6,7 @@ const create = async (req, res) => {
     try {
         const entryReq = req.body;
         entryReq.date = new Date(entryReq.date);
-        const entry = await entryModel.create({...entryReq, user: req.user});
+        const entry = await entryModel.create({...entryReq, user: req.user}).populate('customer');
         return res.status(200).json(entry);
     } catch(error) {
         return res.status(500).json({message: 'Something went wrong'});
