@@ -1,4 +1,6 @@
 const entryModel = require("../models/entry");
+const mongoose = require('mongoose');
+const ObjectId = mongoose.Types.ObjectId;
 
 const create = async (req, res) => {
     try {
@@ -13,18 +15,21 @@ const create = async (req, res) => {
 
 const get = async (req, res) => {
     try {
-        const { customerIds, startDate, endDate, paidStatus } = req.query;
+        const { customerId, startDate, endDate, paidStatus } = req.query;
+        if(customerId === null) {
+            return res.status(400).json({message: 'customer id cannot be null'});
+        }
         const entities = await entryModel.find({
+            customer: customerId.replace(/['"]/g, '').trim(),
             date: {
                 $gte: new Date(startDate??'2000-01-01'),
                 $lte: new Date(endDate??'2055-01-01'),
             },
-            customer: { $in: customerIds },
-            isPaid: { $in: paidStatus ? paidStatus : ["Paid", "Unpaid"] }
-        });
+            isPaid: { $in: typeof paidStatus === "object" ? paidStatus : paidStatus ? [paidStatus] : ["Paid", "Unpaid"] }
+        }).populate('customer')
         res.status(200).json(entities);
     } catch(error) {
-        res.status(500).json({message: 'Something went wrong'});
+        res.status(500).json({message: error});
     }
 }
 
