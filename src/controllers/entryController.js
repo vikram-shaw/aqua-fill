@@ -19,9 +19,11 @@ const get = async (req, res) => {
         if(customerId === null) {
             return res.status(400).json({message: 'customer id cannot be null'});
         }
+        startDate = new Date(startDate);
+        endDate = new Date(endDate)
         startDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
         endDate = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
-
+        
         const entities = await entryModel.find({
             customer: customerId.replace(/['"]/g, '').trim(),
             date: {
