@@ -24,15 +24,15 @@ const get = async (req, res) => {
         startDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
         endDate = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
         
-        const entities = await entryModel.find({
+        const entries = await entryModel.find({
             customer: customerId.replace(/['"]/g, '').trim(),
             date: {
                 $gte: startDate,
                 $lte: endDate,
             },
             isPaid: { $in: typeof paidStatus === "object" ? paidStatus : paidStatus ? [paidStatus] : ["Paid", "Unpaid"] }
-        }).populate('customer')
-        res.status(200).json(entities);
+        }).populate('customer').sort({date: 1})
+        res.status(200).json(entries);
     } catch(error) {
         res.status(500).json({message: error});
     }
