@@ -4,6 +4,7 @@ const create = async (req, res) => {
     try {
         const entryReq = req.body;
         entryReq.date = new Date(entryReq.date);
+        entryReq.date = new Date(entryReq.date.getFullYear(), entryReq.date.getMonth(), entryReq.date.getDate());
         const entry = await entryModel.create({...entryReq, user: req.user});
 
         return res.status(200).json(entry);
@@ -18,6 +19,9 @@ const get = async (req, res) => {
         if(customerId === null) {
             return res.status(400).json({message: 'customer id cannot be null'});
         }
+        startDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
+        endDate = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
+
         const entities = await entryModel.find({
             customer: customerId.replace(/['"]/g, '').trim(),
             date: {
@@ -26,6 +30,7 @@ const get = async (req, res) => {
             },
             isPaid: { $in: typeof paidStatus === "object" ? paidStatus : paidStatus ? [paidStatus] : ["Paid", "Unpaid"] }
         }).populate('customer')
+        console.log(entities)
         res.status(200).json(entities);
     } catch(error) {
         res.status(500).json({message: error});
